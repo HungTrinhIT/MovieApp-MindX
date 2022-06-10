@@ -44,16 +44,13 @@ const HomePage = () => {
     setTopRatedMovies(movieTopRated);
     setNowPlaying(movieNowPlaying);
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    setLoading(false);
   }
 
   // call API
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(loading);
 
   return (
     <div>

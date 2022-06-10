@@ -22,7 +22,7 @@ const MovieService = {
       .get(`${base_URL}/${id}/videos?api_key=${API_KEY}&language=en-US`)
       .then((response) => response.data.results);
   },
-  getMovieCast: (id) => { 
+  getMovieCast: (id) => {
     return axios
       .get(`${base_URL}/${id}/credits?api_key=${API_KEY}&language=en-US`)
       .then((response) => response.data.cast);
@@ -38,6 +38,28 @@ const MovieService = {
       month: "long",
     });
   },
+
+  rateMovie: (value,movieId) => {
+    const body = {
+      value,
+    };
+    return axios.post(`https://api.themoviedb.org/3/movie/${movieId}/rating?api_key=${API_KEY}`,body);
+  },
 };
 // export default khi import không cần dùng destructuring
 export default MovieService;
+
+/*
+  HTTP
+  GET, DELETE ko co body
+  Delete movies/:id
+
+  PUT, POST co body
+  {
+    a
+    b
+    c
+    d
+    e
+  }
+*/ 

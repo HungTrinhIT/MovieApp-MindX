@@ -8,7 +8,7 @@ import MovieService from "../services/MovieService";
 
 function HeroSlider(props) {
   const { nowPlaying, onViewMore, movieType } = props;
-  //   console.log(nowPlaying);
+
   const settings = {
     dots: false,
     infinite: true,
@@ -52,43 +52,38 @@ function HeroSlider(props) {
     const { title, id, overview, backdrop_path, release_date, vote_average } =
       movie;
     return (
-      <>
-        <div
-          className="item-carousel"
-          key={index}
-          style={{
-            backgroundImage: `url("${image_url}${backdrop_path}?api_key=${API_KEY}&language=en-US)"`,
-            backgroundSize: "cover",
-          }}
-        >
-          <div className="overlay">
-            <div className="content-container">
-              <h1 className="big-title">{title}</h1>
-              <p className="overview">{overview}</p>
-              <br></br>
-              <p style={{ fontSize: "1.25rem" }}>
-                Release:{" "}
-                <span
-                  style={{
-                    fontWeight: "bold",
-                    color: "#ee550e",
-                  }}
-                >
-                  {MovieService.convertToHumanDate(release_date)}
-                </span>
-              </p>
-              <div>
-                <button
-                  className="btn-view-more"
-                  onClick={() => onViewMore(id)}
-                >
-                  View more
-                </button>
-              </div>
+      <div
+        className="item-carousel"
+        key={index}
+        style={{
+          backgroundImage: `url("${image_url}${backdrop_path}?api_key=${API_KEY}&language=en-US)"`,
+          backgroundSize: "cover",
+        }}
+      >
+        <div className="overlay">
+          <div className="content-container">
+            <h1 className="big-title">{title}</h1>
+            <p className="overview">{overview}</p>
+            <br></br>
+            <p style={{ fontSize: "1.25rem" }}>
+              Release:{" "}
+              <span
+                style={{
+                  fontWeight: "bold",
+                  color: "#ee550e",
+                }}
+              >
+                {MovieService.convertToHumanDate(release_date)}
+              </span>
+            </p>
+            <div>
+              <button className="btn-view-more" onClick={() => onViewMore(id)}>
+                View more
+              </button>
             </div>
           </div>
         </div>
-      </>
+      </div>
     );
   });
 

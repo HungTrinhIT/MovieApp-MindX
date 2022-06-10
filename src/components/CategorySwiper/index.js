@@ -15,7 +15,7 @@ import { API_KEY, image_url } from "../../constant/const-key";
 
 function CategorySwiper(props) {
   const { movieList, onViewMore, movieType } = props;
-  movieList && console.log(movieList);
+  const [end, setEnd] = useState(true);
   const filerMovies =
     movieList && movieList.filter((movie) => movie.vote_average > 7);
   const movies = filerMovies.map((movie, index) => {
@@ -31,13 +31,23 @@ function CategorySwiper(props) {
       </>
     );
   });
+  const onReachEndHanlder = () => {
+    setEnd(false);
+  };
+  const onSlideChangeHandler = () => {
+    console.log("here");
+    if (!end) {
+      setEnd(true);
+    }
+  };
+
   return (
     <div className="container-fluid category-swiper">
       <div className="row">
         <div className="col-12 col-md-12 col-sm-12">
           <h1>{movieType.split("_").join(" ").toUpperCase()}</h1>
         </div>
-        <div className="col-11 mask-overflow">
+        <div className="col-12 mask-overflow">
           <Swiper
             navigation={true}
             slidesPerView={5}
@@ -48,11 +58,13 @@ function CategorySwiper(props) {
             }}
             modules={[FreeMode, Pagination, Navigation]}
             className="mySwiper"
+            onReachEnd={onReachEndHanlder}
+            onSlideChange={onSlideChangeHandler}
           >
             {movies}
+            {end && <div className="end"></div>}
           </Swiper>
         </div>
-        <div className="col-1"></div>
       </div>
     </div>
   );

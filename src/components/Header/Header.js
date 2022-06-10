@@ -1,17 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 import {
   MOVIE_UPCOMING,
   MOVIE_TOP_RATED,
   MOVIE_POPULAR,
-  MOVIE_NOW_PLAYING,
 } from "../../services/MovieService";
 
 export default function Header() {
+  const navigate = useNavigate();
+  const onLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
   return (
-    <>
-      {/* The rest of your app goes here */}
+    <header>
       <nav className="navbar navbar-expand-md navbar-dark bg-nav">
         <div className="container-fluid">
           <button
@@ -30,6 +33,9 @@ export default function Header() {
             id="navbarNavAltMarkup"
           >
             <div className="navbar-nav">
+              <Link className="nav-link" to={`/`}>
+                Home
+              </Link>
               <Link className="nav-link" to={`movie/${MOVIE_UPCOMING}`}>
                 Up Coming
               </Link>
@@ -39,10 +45,14 @@ export default function Header() {
               <Link className="nav-link" to={`movie/${MOVIE_TOP_RATED}`}>
                 Top Rated
               </Link>
+              <Link className="nav-link" to={`movie/${MOVIE_TOP_RATED}`}>
+                Wishlist
+              </Link>
+              <span onClick={onLogout}>Logout</span>
             </div>
           </div>
         </div>
       </nav>
-    </>
+    </header>
   );
 }

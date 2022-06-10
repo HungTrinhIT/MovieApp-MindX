@@ -7,14 +7,13 @@ import "./MovieDetail.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 
-
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 
-const MovieDetail = () => {
+const MovieDetail = (props) => {
   const params = useParams();
-  console.log(params);
+
   const [movieInfo, setMovieInfo] = useState([]);
   const [trailers, setTrailers] = useState([]);
   const [castList, setCastList] = useState([]);
@@ -35,13 +34,11 @@ const MovieDetail = () => {
     setCastList(movieCasts);
     setCrews(movieCrews);
   }
-  console.log({ movieInfo, castList, crews });
 
   useEffect(() => {
     fetchMovieInfo();
   }, []);
 
-  console.log(movieInfo);
   const {
     original_title: title,
     backdrop_path,
@@ -58,25 +55,31 @@ const MovieDetail = () => {
 
   /* get the list of genre */
   const genreList =
-    genres && genres.map((genre, index) => <li className="genre-tag" key={index}>{genre.name}</li>);
+    genres &&
+    genres.map((genre, index) => (
+      <li className="genre-tag" key={index}>
+        {genre.name}
+      </li>
+    ));
   const released =
     release_date && MovieService.convertToHumanDate(release_date);
   /* get the 1st video and the title of the trailer */
   const trailer = trailers && trailers.shift();
-  trailer && console.log(trailer.name.split('"').join(""));
-
 
   const { name: crewName, job } = crews;
   const top10Cast = castList.splice(0, 10);
-  console.log(top10Cast);
+
   const casts = top10Cast.map((cast, index) => {
     const { name: castName, character, profile_path } = cast;
-    return (<>
-      <SwiperSlide>
-        <img src={`${image_url}${profile_path}?api_key=${API_KEY}&language=en-US)`}>
-        </img>
-      </SwiperSlide>
-    </>);
+    return (
+      <>
+        <SwiperSlide>
+          <img
+            src={`${image_url}${profile_path}?api_key=${API_KEY}&language=en-US)`}
+          ></img>
+        </SwiperSlide>
+      </>
+    );
   });
 
   return (
@@ -105,7 +108,6 @@ const MovieDetail = () => {
             </div>
           </div>
           <div className="col-12 col-md-12 col-sm-12 trailer">
-            
             {trailer && (
               <iframe
                 className="youtube-trailer"
@@ -119,36 +121,39 @@ const MovieDetail = () => {
             )}
           </div>
           {/* cast slider */}
-          <div className="col-lg-12 col-md-12 col-sm-12">
-            <Swiper
-              slidesPerView={2}
-              spaceBetween={20}
-              pagination={{
-                clickable: true,
-              }}
-              modules={[Pagination]}
-              breakpoints={{
-                400: {
-                  slidesPerView: 3,
-                  spaceBetween: 10,
-                },
-                640: {
-                  slidesPerView: 3,
-                  spaceBetween: 10,
-                },
-                768: {
-                  slidesPerView: 4,
-                  spaceBetween: 10,
-                },
-                1024: {
-                  slidesPerView: 5,
-                  spaceBetween: 20,
-                },
-              }}
-              className="castSwiper"
-            >{casts}
-            </Swiper>
-          </div>
+          {props.isAuthenticated && (
+            <div className="col-lg-12 col-md-12 col-sm-12">
+              <Swiper
+                slidesPerView={2}
+                spaceBetween={20}
+                pagination={{
+                  clickable: true,
+                }}
+                modules={[Pagination]}
+                breakpoints={{
+                  400: {
+                    slidesPerView: 3,
+                    spaceBetween: 10,
+                  },
+                  640: {
+                    slidesPerView: 3,
+                    spaceBetween: 10,
+                  },
+                  768: {
+                    slidesPerView: 4,
+                    spaceBetween: 10,
+                  },
+                  1024: {
+                    slidesPerView: 5,
+                    spaceBetween: 20,
+                  },
+                }}
+                className="castSwiper"
+              >
+                {casts}
+              </Swiper>
+            </div>
+          )}
         </div>
       </div>
     </>
